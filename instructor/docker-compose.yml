@@ -1,14 +1,13 @@
 registry:
-  image: registry:0.9.1
+  image: registry:2
   ports:
    - "5000:5000"
   environment:
-   - DISABLE_TOKEN_AUTH=true
-   - SETTINGS_FLAVOR=local
-   - SEARCH_BACKEND=sqlalchemy
-   - STORAGE_PATH=/var/lib/registry
+     REGISTRY_HTTP_TLS_CERTIFICATE: /certs/domain.crt
+     REGISTRY_HTTP_TLS_KEY: /certs/domain.key
   volumes_from:
-    - data-volume
+    - ./data:/var/lib/registry
+    - ./certs:/certs
   restart: always
 httpserver:
   build: dockerfiles/lab-httpd-server/
